@@ -38,7 +38,7 @@ public class Server {
         try {
             server.close(); // Encerra o servidor.
         } catch (IOException e) {
-            e.printStackTrace(); // Imprime o rastreamento de pilha da exceção no console.
+            e.printStackTrace(); // Imprime o rastreamento de pilha da exception no console.
         }
     }
 }
