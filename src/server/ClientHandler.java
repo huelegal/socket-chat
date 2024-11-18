@@ -28,6 +28,10 @@ public class ClientHandler implements Runnable {
 
     private String username;
 
+    public String getUsername() {
+        return username;
+    }
+
     // Construtor:
     public ClientHandler(Socket socket) {
         try {
@@ -54,6 +58,9 @@ public class ClientHandler implements Runnable {
     public void userLeft() {
         clients.remove(this);
         broadcastMessage("SERVER: " + username + " saiu do servidor!"); // Informa no server que o client saiu.
+
+        // Imprime no console do servidor que o usuário se desconectou.
+        System.out.println(username + " saiu do servidor!");
     }
 
     /**
@@ -111,6 +118,13 @@ public class ClientHandler implements Runnable {
         while (socket.isConnected()) {
             try {
                 message = reader.readLine();
+
+                // Se não estiver recebendo mais mensagens.
+                if (message == null) {
+                    closeConnection(socket, reader, writer); // Encerra as conexões.
+                    break; // Sai do loop.
+                }
+
                 broadcastMessage(message);
             } catch (IOException e) {
                 closeConnection(socket, reader, writer); // Encerra a conexão.

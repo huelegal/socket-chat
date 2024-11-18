@@ -27,9 +27,9 @@ public class Server {
             // O servidor deve rodar indefinidamente:
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept(); // Roteia o server. Quando um cliente conecta, retorna um socket.
-                System.out.println("Um novo client se conectou ao servidor!");
 
                 ClientHandler clientHandler = new ClientHandler(socket); // Inicia um novo handler para tratar o client.
+                System.out.println(clientHandler.getUsername() + " se conectou ao servidor!");
 
                 /** Thread responsável pelo ClientHandler */
                 Thread thread = new Thread(clientHandler);

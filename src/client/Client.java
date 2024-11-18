@@ -51,6 +51,7 @@ public class Client {
             // Enquanto o usuário estiver conectado no server:
             while (socket.isConnected()) {
                 String message = scanner.nextLine(); // Recebendo a entrada do usuário.
+
                 writer.write(username + ": " + message); // Imprimindo a entrada do usuário no server.
                 writer.newLine();
                 writer.flush();
@@ -76,9 +77,18 @@ public class Client {
                 while (socket.isConnected()) {
                     try {
                         serverMessage = reader.readLine(); // Lendo a mensagem enviada no chat.
+
+                        // Se não estiver recebendo mais mensagens.
+                        if (serverMessage == null) {
+                            closeConnection(socket, reader, writer); // Encerra as conexões.
+                            System.out.println("Conexão encerrada com o host.");
+                            break; // Sai do loop.
+                        }
+
                         System.out.println(serverMessage); // Imprimindo a mensagem no console.
                     } catch (IOException e) {
                         closeConnection(socket, reader, writer); // Encerrando a conexão.
+                        break; // Encerra o loop.
                     }
                 }
             }
@@ -118,7 +128,7 @@ public class Client {
     public static void main(String[] args) throws UnknownHostException, IOException {
         Scanner scanner = new Scanner(System.in); // Scanner para receber entradas do usuário.
 
-        System.out.println("Insira um nome de usuário: ");
+        System.out.print("Insira um nome de usuário: ");
 
         String username = scanner.nextLine(); // Nome de usuário.
         Socket socket = new Socket("localhost", 7777); // Socket de conexão com o server.
