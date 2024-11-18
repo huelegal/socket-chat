@@ -41,6 +41,8 @@ public class ClientHandler implements Runnable {
             this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.username = reader.readLine(); // Recebe o username do client.
             clients.add(this); // Adicionando o usuário ao group chat.
+
+            broadcastMessage(username + " entrou no servidor!");
         } catch (IOException e) {
             closeConnection(socket, reader, writer);
         }
