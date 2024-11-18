@@ -26,7 +26,12 @@ public class Server {
         try {
             // O servidor deve rodar indefinidamente:
             while (!server.isClosed()) {
-                Socket socket = server.accept(); // Roteia o server. Quando um cliente conecta, retorna um socket:
+                Socket socket = server.accept(); // Roteia o server. Quando um cliente conecta, retorna um socket.
+                ClientHandler clientHandler = new ClientHandler(socket); // Inicia um novo handler para tratar o client.
+
+                /** Thread responsável pelo ClientHandler */
+                Thread thread = new Thread(clientHandler);
+                thread.run();
             }
         } catch (IOException e) {
             closeServer();
